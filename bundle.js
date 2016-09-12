@@ -139,6 +139,22 @@ function Player(position) {
   }
 }
 
+function Monster(img, position, anirate, frames) {
+  this.timer = 0;
+  this.frames = frames;
+  this.anirate = anirate;
+  this.x = position.x;
+  this.y = position.y;
+  this.width  = 16;
+  this.height = 16;
+  this.spritesheet  = new Image();
+  this.spritesheet.src = encodeURI(img);
+}
+
+Monster.prototype.update = function(delta) {
+  this.timer += delta;
+  this.frame = Math.round(this.timer / this.anirate) % this.frames;
+}
 
 /**
  * @function updates the player object
