@@ -31,7 +31,7 @@ masterLoop(performance.now());
  * the number of milliseconds passed since the last frame.
  */
 function update(elapsedTime) {
-
+  player.update(elapsedTime);
   // TODO: Update the game objects
 }
 
@@ -120,19 +120,38 @@ module.exports = exports = Player;
  * @param {Postition} position object specifying an x and y
  */
 function Player(position) {
+  this.state = "waiting";
+  this.frame = 0;
+  this.timer = 0;
   this.x = position.x;
   this.y = position.y;
   this.width  = 16;
   this.height = 16;
   this.spritesheet  = new Image();
   this.spritesheet.src = encodeURI('assets/link/not link/notlink up.png');
+  
+  var self = this;
+  window.onmousedown = function(event) {
+	if(self.state == "waiting") {
+	  self.x = event.clientX;
+	  self.state = "walking";
+	}
+  }
 }
 
 /**
  * @function updates the player object
  * {DOMHighResTimeStamp} time the elapsed time since the last frame
  */
-Player.prototype.update = function(time) {}
+Player.prototype.update = function(elapsedTime) {
+  this.timer += elapsedTime;
+  switch(this.state) {
+    case "walking":
+	  this.frame = Math.round(this.timer / 1000 * 16) % 4;
+	  this.y--;
+	  break;
+  }
+}
 
 /**
  * @function renders the player into the provided context
