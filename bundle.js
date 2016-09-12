@@ -139,6 +139,7 @@ function Player(position) {
   }
 }
 
+
 /**
  * @function updates the player object
  * {DOMHighResTimeStamp} time the elapsed time since the last frame
